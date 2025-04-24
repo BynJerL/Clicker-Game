@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <h3>Login</h3>
+    <form action="/login" method="post">
+        <label for="user_name">User Name</label><br>
+        <input type="text" id="user_name" name="user_name" pattern="^[a-zA-Z0-9_]{3,}$" maxlength="25" required><br>
+        
+        <label for="password">Password</label><br>
+        <input type="password" name="password" id="password" pattern="^[a-zA-Z0-9_!@#$%^&*()+=-]{8,}$" maxlength="25" required><br>
+
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

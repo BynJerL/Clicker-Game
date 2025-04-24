@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+</head>
+<body>
+    <h3>Register</h3>
+    <form action="/register" method="post">
+        <label for="full_name">Full Name</label><br>
+        <input type="text" id="full_name" name="full_name" maxlength="50" required><br>
+        
+        <label for="email">Email</label><br>
+        <input type="email" name="email" id="email" maxlength="30" required><br>
+        
+        <label for="year_of_birth">Year of Birth</label><br>
+        <input type="number" name="year_of_birth" id="year_of_birth" min="1900" max="" step="1" required><br>
+        
+        <label for="user_name">User Name</label><br>
+        <input type="text" id="user_name" name="user_name" pattern="^[a-zA-Z0-9_]{3,}$" maxlength="25" required><br>
+        
+        <label for="password">Password</label><br>
+        <input type="password" name="password" id="password" pattern="^[a-zA-Z0-9_!@#$%^&*()+=-]{8,}$" maxlength="25" required><br>
+        
+        <label for="confirm_password">Confirm Password</label><br>
+        <input type="password" name="confirm_password" id="confirm_password" maxlength="25" required><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const currentYear = new Date().getFullYear();
+        const yearOfBirthInput = document.getElementById("year_of_birth");
+        yearOfBirthInput.setAttribute('max', currentYear);
+        yearOfBirthInput.setAttribute('value',currentYear);
+
+        const form = document.querySelector('form');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+
+        form.addEventListener('submit', (event) => {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                event.preventDefault();
+                alert('Password do not match!');
+            }
+        });
+    </script>
+</body>
+</html>

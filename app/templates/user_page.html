@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Workbench Page</title>
+</head>
+<body>
+    <label>Click Count: </label>
+    <label for="click_count" id="click_count">0</label>
+    <button id="click_button">Click!</button>
+
+    <script>
+        var clickCount = 0;
+
+        function handleClick() {
+            clickCount++;
+            updateClickCounter();
+        }
+
+        function updateClickCounter() {
+            const clickCountLabel = document.getElementById("click_count");
+            clickCountLabel.innerText = clickCount;
+        }
+        
+        const clickButton = document.getElementById("click_button");
+        clickButton.addEventListener("click", handleClick);
+    </script>
+</body>
+</html>
