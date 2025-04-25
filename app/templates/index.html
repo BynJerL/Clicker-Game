@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h3>Clickify 🙂</h3>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p class="error">{{ messages[0] }}</p>
+        {% endif %}
+    {% endwith %}
+
+    <h3>Clickify :D</h3>
     <p>To use this app, you need an account.</p>
     <ul>
-        <li>Click <a href="register.html">register</a> to make your account.</li>
-        <li>If you already have an account, please <a href="login_page.html">login</a> here</li>
+        <li>Click <a href="register">register</a> to make your account.</li>
+        <li>If you already have an account, please <a href="login">login</a> here</li>
     </ul>
 </body>
 </html>

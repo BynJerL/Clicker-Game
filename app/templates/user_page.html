@@ -4,9 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Workbench Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p class="error">{{ messages[0] }}</p>
+        {% endif %}
+    {% endwith %}
+    
+    <p>Welcome, {{ username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
     <label>Click Count: </label>
+    <label id="click_count">{{ click_count }}</label>
+    <form action="{{ url_for('user_page') }}" method="post">
+        <button type="submit">Click!</button>
+    </form>
+
+    <!-- <label>Click Count: </label>
     <label for="click_count" id="click_count">0</label>
     <button id="click_button">Click!</button>
 
@@ -25,6 +39,6 @@
         
         const clickButton = document.getElementById("click_button");
         clickButton.addEventListener("click", handleClick);
-    </script>
+    </script> -->
 </body>
 </html>

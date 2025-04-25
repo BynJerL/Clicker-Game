@@ -4,45 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        
+    </style>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p class="error">{{ messages[0] }}</p>
+        {% endif %}
+    {% endwith %}
+    
     <h3>Register</h3>
-    <form action="/register" method="post">
-        <label for="full_name">Full Name</label><br>
-        <input type="text" id="full_name" name="full_name" maxlength="50" required><br>
+    <form action="/register" method="post" novalidate>
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" name="full_name" maxlength="50" required>
+        <span class="error-message" id="full_name_error"></span><br>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" maxlength="30" required>
+        <span class="error-message" id="email_error"></span><br>
         
-        <label for="email">Email</label><br>
-        <input type="email" name="email" id="email" maxlength="30" required><br>
+        <label for="year_of_birth">Year of Birth</label>
+        <input type="number" name="year_of_birth" id="year_of_birth" min="1900" max="" step="1" required>
+        <span class="error-message" id="year_of_birth_error"></span><br>
+
+        <label for="user_name">Username</label>
+        <input type="text" id="user_name" name="user_name" pattern="^[a-zA-Z0-9_]{3,}$" maxlength="25" required>
+        <span class="error-message" id="user_name_error"></span><br>
         
-        <label for="year_of_birth">Year of Birth</label><br>
-        <input type="number" name="year_of_birth" id="year_of_birth" min="1900" max="" step="1" required><br>
-        
-        <label for="user_name">User Name</label><br>
-        <input type="text" id="user_name" name="user_name" pattern="^[a-zA-Z0-9_]{3,}$" maxlength="25" required><br>
-        
-        <label for="password">Password</label><br>
-        <input type="password" name="password" id="password" pattern="^[a-zA-Z0-9_!@#$%^&*()+=-]{8,}$" maxlength="25" required><br>
-        
-        <label for="confirm_password">Confirm Password</label><br>
-        <input type="password" name="confirm_password" id="confirm_password" maxlength="25" required><br>
-        
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" pattern="^[a-zA-Z0-9_!@#$%^&*()+=-]{8,}$" maxlength="25" required>
+        <span class="error-message" id="password_error"></span><br>
+
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" name="confirm_password" id="confirm_password" maxlength="25" required>
+        <span class="error-message" id="confirm_password_error"></span><br>
+
         <button type="submit">Submit</button>
     </form>
 
     <script>
+        const form = document.querySelector('form');
+        const fullNameInput = document.getElementById('full_name');
+        const emailInput = document.getElementById("email");
+        const userNameInput = document.getElementById("user_name");
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+
         const currentYear = new Date().getFullYear();
         const yearOfBirthInput = document.getElementById("year_of_birth");
         yearOfBirthInput.setAttribute('max', currentYear);
         yearOfBirthInput.setAttribute('value',currentYear);
 
-        const form = document.querySelector('form');
-        const passwordInput = document.getElementById('password');
-        const confirmPasswordInput = document.getElementById('confirm_password');
+        const fullNameError = document.getElementById("full_name_error");
+        const emailError = document.getElementById("email_error");
+        const yearOfBirthError = document.getElementById("year_of_birth_error");
+        const userNameError = document.getElementById("user_name_error");
+        const passwordError = document.getElementById('password_error');
+        const confirmPasswordError = document.getElementById('confirm_password_error');
 
         form.addEventListener('submit', (event) => {
+            let isValid = true;
+
+            // Full Name Validation
+            if (fullNameInput.value.length > 50) {
+                fullNameError.innerText = "Full name must not exceed 50 characters.";
+                fullNameError.style.display = "inline";
+                isValid = false;
+            } else if (fullNameInput.value.length === 0) {
+                fullNameError.innerText = "Full name cannot be empty.";
+                fullNameError.style.display = "inline";
+                isValid = false;
+            } else {
+                fullNameError.style.display = "none";
+            }
+
+            // Email Validation
+            if (!emailInput.validity.valid) {
+                emailError.innerText = "Invalid email address.";
+                emailError.style.display = "inline";
+                isValid = false;
+            } else {
+                emailError.style.display = "none";
+            }
+
+            // Year of Birth Validation
+            if (yearOfBirthInput.value < 1900 || yearOfBirthInput.value > currentYear) {
+                yearOfBirthError.innerText = `Year of birth must be between 1900 and ${currentYear}.`;
+                yearOfBirthError.style.display = "inline";
+                isValid = false;
+            } else {
+                yearOfBirthError.style.display = "none";
+            }
+
+            // Username Validation
+            if (!userNameInput.validity.valid) {
+                userNameError.innerText = "Username must be 3-25 characters long and can only contain letters, numbers, and underscores.";
+                userNameError.style.display = "inline";
+                isValid = false;
+            } else {
+                userNameError.style.display = "none";
+            }
+
+            // Password Validation
+            if (!passwordInput.validity.valid) {
+                passwordError.innerText = "Password must be 8-25 characters long and can only contain letters, numbers, underscores, and special characters.";
+                passwordError.style.display = "inline";
+                isValid = false;
+            } else {
+                passwordError.style.display = "none";
+            }
+
+            // Confirm Password Validation
             if (passwordInput.value !== confirmPasswordInput.value) {
+                confirmPasswordError.innerText = "Passwords do not match!";
+                confirmPasswordError.style.display = "inline";
+                isValid = false;
+            } else {
+                confirmPasswordError.style.display = "none";
+            }
+
+            // Prevent form submission if validation fails
+            if (!isValid) {
                 event.preventDefault();
-                alert('Password do not match!');
             }
         });
     </script>

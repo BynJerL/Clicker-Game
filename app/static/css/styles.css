@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+}
+h3 {
+    color: #333;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+label {
+    font-weight: bold;
+}
+input, button {
+    padding: 8px;
+    font-size: 14px;
+}
+input {
+    color: 333;
+}
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.error {
+    color: red;
+    font-size: 14px;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: red;
+    font-size: 10px;
+    display: none;
+}

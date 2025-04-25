@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p class="error">{{ messages[0] }}</p>
+        {% endif %}
+    {% endwith %}
+    
     <h3>Login</h3>
     <form action="/login" method="post">
         <label for="user_name">User Name</label><br>
